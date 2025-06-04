@@ -1,0 +1,193 @@
+# -*- coding: utf-8 -*-
+"""
+Created on: January 17, 2025
+
+Project Title: Task Management Script
+
+Description:
+This script provides functionality to manage tasks efficiently by:
+1. Adding new tasks.
+2. Updating task progress.
+3. Assigning tasks to users.
+4. Managing deadlines.
+5. Viewing all tasks.
+
+Usage:
+The project is designed for ease of use.Run the script to access a menu-driven interface for managing tasks stored in a CSV file.
+"""
+
+import csv
+import datetime
+
+# Constants
+CSV_FILE = "task_management.csv"  # File to store tasks
+
+# Step 1: Load Projects from CSV
+def load_projects():
+    """Loads tasks from the CSV file."""
+    projects = []
+    try:
+        with open(CSV_FILE, 'r') as file:
+            reader = csv.reader(file)
+            next(reader)  # Skip header row
+            for row in reader:
+                project = {
+                    "task": row[0],
+                    "assigned_to": row[1],
+                    "progress": row[2],
+                    "deadline": row[3],
+                    "last_updated": row[4],
+                }
+                projects.append(project)
+    except FileNotFoundError:
+        print("No project file found. Starting fresh.")
+    return projects
+
+# Step 2: Save Projects to CSV
+def save_projects(projects):
+    """Saves tasks to the CSV file."""
+    with open(CSV_FILE, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["task", "assigned_to", "progress", "deadline", "last_updated"])
+        for project in projects:
+            writer.writerow([
+                project["task"],
+                project["assigned_to"],
+                project["progress"],
+                project["deadline"],
+                project["last_updated"],
+            ])
+
+# Step 3: Add a New Task
+def add_project(projects):
+    """Adds a new task to the list."""
+    task = input("Task name: ").strip()
+    assigned_to = input("Assigned to: ").strip()
+    deadline = input("Deadline (YYYY-MM-DD): ").strip()
+    project = {
+        "task": task,
+        "assigned_to": assigned_to,
+        "progress": "Not Started",
+        "deadline": deadline,
+        "last_updated": datetime.date.today().strftime("%Y-%m-%d"),
+    }
+    projects.append(project)
+    save_projects(projects)
+    print("Task added successfully!")
+
+# Step 4: Update Task Progress
+def update_progress(projects):
+    """Updates the progress of a selected task."""
+    view_projects(projects)
+    try:
+        index = int(input("Select task number to update progress: ")) - 1
+        if 0 <= index < len(projects):
+            print("Select progress:")
+            print("1. Not Started")
+            print("2. In Progress")
+            print("3. Completed")
+            choice = input("Enter choice: ").strip()
+            if choice == "1":
+                projects[index]["progress"] = "Not Started"
+            elif choice == "2":
+                projects[index]["progress"] = "In Progress"
+            elif choice == "3":
+                projects[index]["progress"] = "Completed"
+            else:
+                print("Invalid choice.")
+                return
+            projects[index]["last_updated"] = datetime.date.today().strftime("%Y-%m-%d")
+            save_projects(projects)
+            print("Progress updated successfully!")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Invalid input. Please enter a valid number.")
+
+# Step 5: Change Assigned User
+def change_user(projects):
+    """Changes the user assigned to a task."""
+    view_projects(projects)
+    try:
+        index = int(input("Select task number to update assigned user: ")) - 1
+        if 0 <= index < len(projects):
+            new_user = input("Enter new user: ").strip()
+            projects[index]["assigned_to"] = new_user
+            projects[index]["last_updated"] = datetime.date.today().strftime("%Y-%m-%d")
+            save_projects(projects)
+            print("User updated successfully!")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Invalid input. Please enter a valid number.")
+
+# Step 6: Manage Deadlines
+def manage_deadline(projects):
+    """Updates or removes the deadline for a task."""
+    view_projects(projects)
+    try:
+        index = int(input("Select task number to manage deadline: ")) - 1
+        if 0 <= index < len(projects):
+            print("1. Update Deadline")
+            print("2. Remove Deadline")
+            choice = input("Enter choice: ").strip()
+            if choice == "1":
+                new_deadline = input("Enter new deadline (YYYY-MM-DD): ").strip()
+                projects[index]["deadline"] = new_deadline
+                projects[index]["last_updated"] = datetime.date.today().strftime("%Y-%m-%d")
+                save_projects(projects)
+                print("Deadline updated successfully!")
+            elif choice == "2":
+                projects[index]["deadline"] = ""
+                projects[index]["last_updated"] = datetime.date.today().strftime("%Y-%m-%d")
+                save_projects(projects)
+                print("Deadline removed successfully!")
+            else:
+                print("Invalid choice.")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Invalid input. Please enter a valid number.")
+
+# Step 7: View All Tasks
+def view_projects(projects):
+    """Displays all tasks in a formatted list."""
+    if not projects:
+        print("No tasks available.")
+    else:
+        for i, project in enumerate(projects, 1):
+            print(f"{i}. Task: {project['task']}, Assigned to: {project['assigned_to']}, "
+                  f"Progress: {project['progress']}, Deadline: {project['deadline']}, "
+                  f"Last Updated: {project['last_updated']}")
+
+# Step 8: Main Function
+def main():
+    """Main menu-driven interface for task management."""
+    projects = load_projects()
+    while True:
+        print("\nMenu:")
+        print("1. Add Task")
+        print("2. Update Task Progress")
+        print("3. Change Assigned User")
+        print("4. Manage Deadline")
+        print("5. View All Tasks")
+        print("6. Quit")
+        choice = input("Choose an option: ").strip()
+        if choice == "1":
+            add_project(projects)
+        elif choice == "2":
+            update_progress(projects)
+        elif choice == "3":
+            change_user(projects)
+        elif choice == "4":
+            manage_deadline(projects)
+        elif choice == "5":
+            view_projects(projects)
+        elif choice == "6":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+# Entry Point
+main()
