@@ -24,10 +24,56 @@ A lightweight, menu-driven **task management system** built in **Python** with *
 
 ---
 
-## Quickstart
+## CLI Menu (Screens)
 
-### PowerShell / Command Prompt
-```bash
-python task_management.py
-# or
-py task_management.py
+### Full Menu
+![Full Menu](assets/images/menu_full.png)
+
+### Option 1 – Add Task
+Action: Add task with assignee + deadline →  
+Result: CSV updated, confirmation printed.  
+![Add Task](assets/images/menu_option1_add.png)
+
+### Option 2 – Update Progress
+Action: Select task index → choose status →  
+Result: progress updated + timestamp.  
+![Update Progress](assets/images/menu_option2_progress.png)
+
+### Option 3 – Change Assigned User
+Action: Select task index → new user →  
+Result: assignee updated + timestamp.  
+![Change User](assets/images/menu_option3_user.png)
+
+### Option 4 – Manage Deadline (Update)
+Action: Select task index → new date →  
+Result: deadline updated + timestamp.  
+![Update Deadline](assets/images/menu_option4_deadline.png)
+
+### View All Tasks
+Action: Display formatted list →  
+Result: quick status overview.  
+![View All](assets/images/menu_view_all.png)
+
+---
+
+## How It Works (in brief)
+
+1. **`load_projects()`** → reads the CSV into memory (list of dicts).  
+2. **`save_projects()`** → writes back with the expected header.  
+3. **Menu actions** call functions like:
+   - `add_project`
+   - `update_progress`
+   - `change_user`
+   - `manage_deadline`
+   - `view_projects`  
+4. **`main()` loop** → runs until you choose **Quit (6)**.
+
+---
+
+## Example CSV (Draft)
+
+```csv
+Task,Assignee,Deadline,Progress,Last Updated
+"Write project report","Alice","2025-09-30","In Progress","2025-09-18 14:22"
+"Prepare presentation","Bob","2025-10-05","Not Started","2025-09-19 09:13"
+"Update website","Charlie","2025-09-25","Completed","2025-09-15 18:07"
