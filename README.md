@@ -1,6 +1,6 @@
 # Task Management (Python + CSV · CLI)
 
-![Project Banner](Assets/Images/banner_task_python_csv.gif)
+![Project Banner](assets/images/banner_task_python_csv.gif)
 
 A lightweight, menu-driven **task management system** built in **Python** with **CSV (Excel-compatible)** storage. Runs cleanly in **PowerShell/Command Prompt** or from IDEs like **Spyder**.
 
