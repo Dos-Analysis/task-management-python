@@ -72,8 +72,35 @@ Result: quick status overview.
 
 ## Example CSV (Draft)
 
-```csv
-Task,Assignee,Deadline,Progress,Last Updated
-"Write project report","Alice","2025-09-30","In Progress","2025-09-18 14:22"
-"Prepare presentation","Bob","2025-10-05","Not Started","2025-09-19 09:13"
-"Update website","Charlie","2025-09-25","Completed","2025-09-15 18:07"
+| Task                 | Assignee | Deadline   | Progress     | Last Updated        |
+|-----------------------|----------|------------|--------------|---------------------|
+| Write project report  | Alice    | 2025-09-30 | In Progress  | 2025-09-18 14:22    |
+| Prepare presentation  | Bob      | 2025-10-05 | Not Started  | 2025-09-19 09:13    |
+| Update website        | Charlie  | 2025-09-25 | Completed    | 2025-09-15 18:07    |
+
+- Each row = one task.  
+- Last Updated = automatic timestamp when changes occur.  
+- Fully Excel/LibreOffice compatible.
+
+---
+
+## Why This Project Matters
+
+- **Efficiency** → Fast to run, zero deployment, no DB required.
+
+- **Transparency** → CSV provides clear, auditable change history.
+
+- **Team-ready** → Anyone with Python + Excel can collaborate.
+
+This project shows how structured task tracking can directly support a team’s decision-making by ensuring visibility, accountability, and better planning.
+
+---
+
+## Quickstart
+
+### PowerShell / Command Prompt
+```bash
+python task_management.py
+# or
+py task_management.py
+
